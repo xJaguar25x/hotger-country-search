@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {makeStyles} from '@material-ui/core/styles';
 import Container from "@material-ui/core/Container";
-import {BlockCI, BlockMF, BlockSF2, BlockSR} from "../index";
+import {BlockCI, BlockMF, BlockSF, BlockSR} from "../index";
 import lightBlue from '@material-ui/core/colors/lightBlue';
 
 const Blue = lightBlue[50];

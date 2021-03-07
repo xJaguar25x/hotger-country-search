@@ -17,7 +17,7 @@ export default function BlockSR(props) {
       <List dense={true}>
           {results.constructor === Array ?
             results.map((item, index) => (
-              <Slide direction="up" in={!!item} mountOnEnter unmountOnExit>
+              <Slide key={item.name + index} direction="up" in={!!item} mountOnEnter unmountOnExit>
                   <ListItem key={item.name + index}>
 
                       <ListItemAvatar>

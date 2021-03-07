@@ -63,7 +63,6 @@ export default function BlockCI(props) {
 
     return (
       <Fragment>
-          {console.log("countryInf", countryInf)}
           {countryInf !== null
             ?
             <Zoom in={!!countryInf} style={{transitionDelay: !!countryInf ? '300ms' : '0ms'}}>
