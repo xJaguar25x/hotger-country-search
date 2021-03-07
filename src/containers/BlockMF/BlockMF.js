@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,9 +17,6 @@ const useStyles = makeStyles((theme) => ({
         border: "5px solid transparent",
         borderRadius: "5px",
         height: "fit-content",
-    },
-    ListSubheader: {
-        // zIndex: 0,
     },
 }));
 

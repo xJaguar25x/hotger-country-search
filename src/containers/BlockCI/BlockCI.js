@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import {BordersList} from "../../components/index";
-import Slide from "@material-ui/core/Slide/Slide";
 import Zoom from "@material-ui/core/Zoom";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,9 +16,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: 345,
     },
     header: {
-        // title: {
-        //     "font-size": "1.2rem",
-        // },
         height: 50,
     },
     media: {
@@ -43,8 +39,6 @@ export default function BlockCI(props) {
 
     const returnBtn = () => {
         let keys = Object.keys(sessionStorage);
-        console.log("keys", keys);
-        console.log("keys find", keys.includes("NRU"));
 
         if (!keys.includes(countryInf.alpha3Code)) {
             return (
@@ -72,48 +66,46 @@ export default function BlockCI(props) {
           {console.log("countryInf", countryInf)}
           {countryInf !== null
             ?
-            <Zoom in={!!countryInf} style={{ transitionDelay: !!countryInf ? '300ms' : '0ms' }}>
-                {/*<Slide direction="left" in={!!countryInf} mountOnEnter unmountOnExit>*/}
-            <Card className={classes.root}>
-                <CardHeader
-                  className={classes.header}
-                  action={
-                      returnBtn()
-                  }
-                  title={countryInf.name}
-                />
-                <CardMedia
-                  className={classes.media}
-                  image={countryInf.flag}
-                  title={countryInf.name + " flag"}
-                />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        alpha3Code: {countryInf.alpha3Code}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {countryInf.hasOwnProperty('languages') ?
-                          countryInf.languages.map((item, index) => {
-                              if (index === 0 && countryInf.languages.length === 1) {
-                                  return "langs: " + item.name + "."
-                              } else if (index === 0) {
-                                  return "langs: " + item.name
-                              } else if (index === countryInf.languages.length - 1) {
-                                  return ", " + item.name + "."
-                              } else {
-                                  return ", " + item.name
-                              }
-                          })
-                          : null}
-                    </Typography>
-                    <BordersList
-                      countryInf={countryInf}
-                      handleSearchCountryBy={props.handleSearchCountryBy}
-                      handleShowCountryInf={props.handleShowCountryInf}
+            <Zoom in={!!countryInf} style={{transitionDelay: !!countryInf ? '300ms' : '0ms'}}>
+                <Card className={classes.root}>
+                    <CardHeader
+                      className={classes.header}
+                      action={
+                          returnBtn()
+                      }
+                      title={countryInf.name}
                     />
-                </CardContent>
-            </Card>
-            {/*</Slide>*/}
+                    <CardMedia
+                      className={classes.media}
+                      image={countryInf.flag}
+                      title={countryInf.name + " flag"}
+                    />
+                    <CardContent>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            alpha3Code: {countryInf.alpha3Code}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {countryInf.hasOwnProperty('languages') ?
+                              countryInf.languages.map((item, index) => {
+                                  if (index === 0 && countryInf.languages.length === 1) {
+                                      return "langs: " + item.name + "."
+                                  } else if (index === 0) {
+                                      return "langs: " + item.name
+                                  } else if (index === countryInf.languages.length - 1) {
+                                      return ", " + item.name + "."
+                                  } else {
+                                      return ", " + item.name
+                                  }
+                              })
+                              : null}
+                        </Typography>
+                        <BordersList
+                          countryInf={countryInf}
+                          handleSearchCountryBy={props.handleSearchCountryBy}
+                          handleShowCountryInf={props.handleShowCountryInf}
+                        />
+                    </CardContent>
+                </Card>
             </Zoom>
             : null
           }

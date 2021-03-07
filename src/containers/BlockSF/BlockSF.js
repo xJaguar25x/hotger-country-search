@@ -1,16 +1,12 @@
 import React from "react";
 import {fade, makeStyles} from '@material-ui/core/styles';
-import {
-    InputBase,
-    Button,
-} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import SearchIcon from '@material-ui/icons/Search';
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 
 const useStyles = makeStyles((theme) => ({
-    grow: {
-        //  flexGrow: 1,
-    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -20,10 +16,6 @@ const useStyles = makeStyles((theme) => ({
         },
         margin: theme.spacing(2, 0),
         width: '100%',
-        // [theme.breakpoints.up('sm')]: {
-        //     marginLeft: theme.spacing(3),
-        //     width: 'auto',
-        // },
     },
     searchIcon: {
         padding: theme.spacing(0, 2),
@@ -33,10 +25,12 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        margin: 0,
     },
     inputRoot: {
         color: 'inherit',
-        width: "240px",
+        width: '27ch',
+        marginRight: theme.spacing(1),
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
@@ -56,33 +50,47 @@ export default function BlockSF(props) {
     const [searchVal, setSearchVal] = React.useState('');
 
     const handleSearchChange = (e) => {
-        setSearchVal(e.target.value);
-        // console.log("submit: ", searchVal);
+        handleCheckLatin(e);
+    };
+
+    const handleCheckLatin = (event) => {
+        const regexp = /[$\u0400-\u04FF0-9-]/ig;
+        const isCyrilic = regexp.test(event.target.value);
+        if (isCyrilic) {
+            const data = event.target.value.replace(regexp, '');
+            setError({status: true, message: "Only the Latin alphabet is allowed."});
+            setSearchVal(data);
+        } else {
+            setError(false);
+            setSearchVal(event.target.value);
+        }
     };
 
     const handleKeyEnterPress = (event) => {
         if (event.key === "Enter") handleSearchCountryBy("name", searchVal);
-        // console.log("code: ", event.code);
-        // console.log("key: ", event.key);
     };
 
     return (
-
       <div className={classes.search}>
-          <div className={classes.searchIcon}>
-              <SearchIcon/>
-          </div>
-          <InputBase
+          <TextField
             placeholder="Search…"
-            classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-            }}
+            classes={{root: classes.inputRoot}}
             type={'search'}
-            inputProps={{'aria-label': 'search', pattern: "^[a-zA-Z]+$"}}
+            InputProps={{
+                classes: {input: classes.inputInput},
+                startAdornment: (
+                  <InputAdornment position="start" classes={{
+                      root: classes.searchIcon,
+                  }}>
+                      <SearchIcon/>
+                  </InputAdornment>)
+            }}
+            inputProps={{'aria-label': 'search'}}
+            value={searchVal}
             onChange={event => handleSearchChange(event)}
             onKeyPress={event => handleKeyEnterPress(event)}
-            // TODO: реализовать метод для ошибок
+            error={!!error.status}
+            helperText={error.message}
           />
           <Button
             variant="contained"
@@ -92,7 +100,5 @@ export default function BlockSF(props) {
               Search
           </Button>
       </div>
-
     );
-
 };
