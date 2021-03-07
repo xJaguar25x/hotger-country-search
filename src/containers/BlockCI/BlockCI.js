@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import {BordersList} from "../../components/index";
+import Slide from "@material-ui/core/Slide/Slide";
+import Zoom from "@material-ui/core/Zoom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,6 +72,8 @@ export default function BlockCI(props) {
           {console.log("countryInf", countryInf)}
           {countryInf !== null
             ?
+            <Zoom in={!!countryInf} style={{ transitionDelay: !!countryInf ? '300ms' : '0ms' }}>
+                {/*<Slide direction="left" in={!!countryInf} mountOnEnter unmountOnExit>*/}
             <Card className={classes.root}>
                 <CardHeader
                   className={classes.header}
@@ -109,7 +113,8 @@ export default function BlockCI(props) {
                     />
                 </CardContent>
             </Card>
-
+            {/*</Slide>*/}
+            </Zoom>
             : null
           }
       </Fragment>

@@ -10,27 +10,24 @@ import {
     ListItemSecondaryAction,
     IconButton
 } from "@material-ui/core";
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import {BlockCI} from "../index";
-import BlockMF from "../BlockMF/BlockMF";
+import {BlockCI, BlockMF, BlockSF, BlockSF2, BlockSR} from "../index";
 import lightBlue from '@material-ui/core/colors/lightBlue';
-import BlockSF from "../BlockSF/BlockSF";
-import BlockSF2 from "../BlockSF/BlockSF2";
 
 const Blue = lightBlue[50];
 
 
 const useStyles = makeStyles((theme) => ({
-    grow: {
-        //  flexGrow: 1,
-    },
     Container: {
         display: 'flex',
         backgroundColor: Blue,
+        width: document.documentElement.clientWidth,
     },
     mainBlock: {
         width: "65%",
-    }
+    },
+    body:{
+       width: document.documentElement.clientWidth,
+    },
 }));
 
 export default function App() {
@@ -41,6 +38,14 @@ export default function App() {
     // const [isLoaded, setIsLoaded] = React.useState(false); // не используется
     const [favorite_countries, setFavorite_countries] = React.useState();
 
+    const testWidth =()=>{
+        console.log('1=%d 2=%d 3=%d 4=%d 5=%d 6=%d', document.body.scrollWidth,
+          document.documentElement.scrollWidth,
+          document.body.offsetWidth,
+          document.documentElement.offsetWidth,
+          document.body.clientWidth,
+          document.documentElement.clientWidth);
+    };
     const handleSearchCountryBy = (searchBy, value) => {
         //clear state before run new seacrh
         setCountryInf(null);
@@ -74,6 +79,7 @@ export default function App() {
 
     };
     const handleAfterSearch = (searchRes) => {
+        testWidth();
         //Условие на вывод 1 или нескольких результатов
         if (searchRes.length === 1) {
             setError(false);
@@ -88,7 +94,6 @@ export default function App() {
             console.log("searchRes: ", searchRes);
         }
     };
-
     const handleBtnShowMore = (item) => {
         setCountryInf(results[item]);
         console.log("item: ", results[item]);
@@ -119,7 +124,6 @@ export default function App() {
         // setCountryInf(alfa3Code);
         // console.log("item: ", alfa3Code);
     };
-
     const handleUpdateStateFromSStorage = () => {
         let keys = Object.keys(sessionStorage);
 
@@ -133,6 +137,7 @@ export default function App() {
     useEffect(() => {
         handleUpdateStateFromSStorage();
         console.log('state=', favorite_countries);
+        testWidth();
     }, []);
 
     return (
@@ -159,40 +164,11 @@ export default function App() {
                     handleSearchCountryBy={handleSearchCountryBy}
                     handleShowCountryInf={handleShowCountryInf}
                   />
-
-                  <div>
-                      {/*Search Results (SR)*/}
-                      {/*{console.log("result155: ", results)}*/}
-                      {/*{console.log("results.isArray({}): ",results.constructor === Array )}*/}
-                      <List dense={true}>
-                          {results.constructor === Array ? // проверка на существование массива
-                            results.map((item, index) => (
-                              <ListItem key={index}>
-                                  <ListItemAvatar>
-                                      <Avatar>
-                                          {/*<FolderIcon/>*/}
-                                          {/*<IconWrapper img={item.flag}/>*/}
-                                          {/*<SvgIcon src={item.flag} viewBox="0 0 600 476.6" />*/}
-                                          <img src={item.flag} height="24px" alt={item.name}/>
-                                          {/*    TODO: доделать компонент SvgIcon. ТЕкст поиска "svg иконка из урл в material-ui svg icon"
-                                      https://stackoverflow.com/questions/38510443/how-to-use-an-svg-file-in-a-svgicon-in-material-ui*/}
-                                      </Avatar>
-                                  </ListItemAvatar>
-                                  <ListItemText
-                                    primary={item.name}
-                                  />
-                                  <ListItemSecondaryAction>
-                                      <IconButton edge="end" aria-label="delete"
-                                                  onClick={() => handleBtnShowMore(index)}>
-                                          <VisibilityIcon/>
-                                      </IconButton>
-                                  </ListItemSecondaryAction>
-                              </ListItem>
-                            ))
-                            : null
-                          }
-                      </List>
-                  </div>
+                  {/*Search Results (SR)*/}
+                  <BlockSR
+                    results={results}
+                    handleBtnShowMore={handleBtnShowMore}
+                  />
               </div>
           </div>
 
